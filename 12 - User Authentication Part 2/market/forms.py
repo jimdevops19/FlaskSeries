@@ -9,11 +9,11 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(username=username_to_check.data).first()
         if user:
             raise ValidationError('Username already exists! Please try a different username')
-
-    def validate_email_address(self, email_address_to_check):
-        email_address = User.query.filter_by(email_address=email_address_to_check.data).first()
-        if email_address:
-            raise ValidationError('Email Address already exists! Please try a different email address')
+            
+    def validate_email_address(self, email_to_check):
+        user = User.query.filter_by(email=email_to_check.data).first()
+        if user is not None:
+            raise ValidationError('Email already exists!')
 
     username = StringField(label='User Name:', validators=[Length(min=2, max=30), DataRequired()])
     email_address = StringField(label='Email Address:', validators=[Email(), DataRequired()])
